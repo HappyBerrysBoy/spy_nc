@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>App Manager</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,shrink-to-fit=no"
+    />
+    <!-- <script src="chrome-extension://cjgjgmnklgekhjlchfpbbcebnedlobeo/js/steem_keychain.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sscjs@latest/dist/ssc.min.js"></script> -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+      <a class="navbar-brand mr-auto mr-lg-0" href="#">Happy Service</a>
+      <button
+        class="navbar-toggler p-0 border-0"
+        type="button"
+        data-toggle="offcanvas"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div
+        class="navbar-collapse offcanvas-collapse"
+        id="navbarsExampleDefault"
+      >
+        <ul id="mainMenu" class="navbar-nav mr-auto"></ul>
+      </div>
+    </nav>
+
+    <div class="nav-scroller bg-white shadow-sm">
+      <nav id="subMenu" class="nav nav-underline">
+        <!-- 여기에 Sub Menu가 들어감 -->
+      </nav>
+    </div>
+
+    <main role="main" class="container">
+      <div
+        class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm"
+      >
+        <div class="lh-100">
+          <h6 class="mb-0 text-white lh-100">Next Colony</h6>
+          <small>Next Colony Spy Service</small>
+        </div>
+      </div>
+      <div id="content"><!-- 여기에 내용이 들어감 --></div>
+    </main>
+  </body>
+
+  <script type="text/x-templet" id="mainMenuComponent">
+    <li data-menu="{{name}}" class="nav-item {{active}}">
+      <a class="nav-link" href="#">{{caption}}</a>
+    </li>
+  </script>
+  <script type="text/x-templet" id="subMenuComponent">
+    <a class="sub nav-link" href="{{goPageUrl}}" data-submenu="{{name}}">
+      {{caption}}
+      <span class="badge badge-pill bg-light align-text-bottom">{{newCount}}</span>
+    </a>
+  </script>
+  <script src="./js/const.js"></script>
+  <script src="./js/componentFormats.js"></script>
+  <script src="./js/nextColonyApi.js"></script>
+  <script src="./js/nextColony.js"></script>
+  <script src="./js/main.js"></script>
+</html>
