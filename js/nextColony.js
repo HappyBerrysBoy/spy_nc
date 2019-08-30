@@ -1,5 +1,8 @@
 let self;
 
+const storageId = "users";
+const saveCount = 5;
+
 const nextColony = {
   name: "nextColony",
   caption: "Next Colony",
@@ -7,6 +10,27 @@ const nextColony = {
   onload() {
     this.setSubMenu();
     self = this;
+
+    let firstAccount = "";
+    if (localStorage.getItem(storageId)) {
+      let users = localStorage.getItem(storageId).split(",");
+      users.forEach((user, idx) => {
+        if (idx == 0) {
+          firstAccount = user;
+        }
+        $("#accountShortcut").append(
+          componentFormats.userShortcut.replace(/{{account}}/g, user),
+        );
+      });
+    }
+
+    $(".shortcut").on("click", function() {
+      $("#inputAccount").val($(this).text());
+      $("#loadAccount").trigger("click");
+    });
+
+    $("#inputAccount").val(firstAccount);
+    $("#loadAccount").trigger("click");
   },
   subMenu: {
     account: {
@@ -25,6 +49,33 @@ const nextColony = {
 
         $("#loadAccount").on("click", function() {
           self.loadPlanets();
+
+          const selId = $("#inputAccount").val();
+
+          if (localStorage.getItem(storageId)) {
+            let users = localStorage.getItem(storageId).split(",");
+
+            if (users.includes(selId)) return;
+
+            users.push(selId);
+
+            if (users.length > saveCount) {
+              users.shift();
+            }
+            localStorage.setItem(storageId, users);
+
+            $("#accountShortcut").append(
+              componentFormats.userShortcut.replace(/{{account}}/g, selId),
+            );
+
+            $(".shortcut").off("click");
+            $(".shortcut").on("click", function() {
+              $("#inputAccount").val($(this).text());
+              $("#loadAccount").trigger("click");
+            });
+          } else {
+            localStorage.setItem(storageId, [selId]);
+          }
         });
       },
     },
@@ -162,6 +213,49 @@ const nextColony = {
                     .replace(/{{val}}/g, `${value.leave}/${value.ttl}`),
                 );
               }
+
+              $("#planetDetail").append(componentFormats.planetFleetInfo);
+
+              d.data.forEach(v => {
+                const ships = v.ships;
+                console.log(`ships:${ships}`);
+
+                let content = "";
+                let toInfo = "";
+
+                if (v.type == "explorespace") {
+                  toInfo = `(${v.end_x},${v.end_y})`;
+                } else if (
+                  v.type == "attack" ||
+                  v.type == "siege" ||
+                  v.type == "deploy"
+                ) {
+                  Object.keys(v.ships).forEach(ship => {
+                    if (ship === "total") return;
+
+                    content += `${ship}:Count(${ships[ship].n}), Position(${ships[ship].pos}) \n`;
+                  });
+
+                  toInfo = `${v.to_planet.user}, ${v.to_planet.name}(${v.end_x},${v.end_y})`;
+                }
+
+                $("#leaveShipDetailInfo").append(
+                  componentFormats.detailFleetRow
+                    .replace(/{{type}}/g, v.type)
+                    .replace(/{{to}}/g, toInfo)
+                    .replace(
+                      /{{arrival}}/g,
+                      new Date(v.arrival * 1000).toLocaleString(),
+                    )
+                    .replace(
+                      /{{return}}/g,
+                      v.return
+                        ? new Date(v.return * 1000).toLocaleString()
+                        : "-",
+                    )
+                    .replace(/{{content}}/g, content),
+                );
+              });
             }),
           )
           .catch(error => {

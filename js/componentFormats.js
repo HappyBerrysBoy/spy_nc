@@ -8,6 +8,8 @@ const componentFormats = {
     <div class="col-md-6 mb-3">
       <button type="submit" id="loadAccount" class="btn btn-primary btn-lg btn-block">Load</button>
     </div>
+    <div id="accountShortcut" style="padding:5px;">
+    </div>
   </div>
   `,
   planetComponent: `
@@ -113,8 +115,11 @@ const componentFormats = {
     <table class="table table-sm">
       <thead>
         <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Val</th>
+          <th scope="col">Type</th>
+          <th scope="col">To</th>
+          <th scope="col">Arrival</th>
+          <th scope="col">Return</th>
+          <th scope="col">Ships</th>
         </tr>
       </thead>
       <tbody id="leaveShipDetailInfo">
@@ -122,4 +127,13 @@ const componentFormats = {
     </table>
   </div>
   `,
+  detailFleetRow: `
+  <tr>
+    <td>{{type}}</td>
+    <td>{{to}}</td>
+    <td>{{arrival}}</td>
+    <td>{{return}}</td>
+    <td>{{content}}</td>
+  </tr>`,
+  userShortcut: `<button class="btn btn-primary btn-sm btn-block shortcut">{{account}}</button>`,
 };

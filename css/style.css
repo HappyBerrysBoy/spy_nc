@@ -85,3 +85,7 @@ body {
 .lh-150 {
   line-height: 1.5;
 }
+
+.shortcut {
+  float: left;
+}
