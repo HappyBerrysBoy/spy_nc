@@ -25,30 +25,30 @@ const loadshipyard = planetId => {
 
 const loadproduction = (planetId, account) => {
   return axios.get(
-    `https://api.nextcolony.io/loadproduction?id=${planetId}&user=${account}`
+    `https://api.nextcolony.io/loadproduction?id=${planetId}&user=${account}`,
   );
 };
 
 const loadGalaxy = (planetX, planetY) => {
   return axios.get(
-    `https://api.nextcolony.io/loadgalaxy?x=${planetX}&y=${planetY}&height=120&width=120`
+    `https://api.nextcolony.io/loadgalaxy?x=${planetX}&y=${planetY}&height=120&width=120`,
   );
 };
 
 const fleetMission = account => {
   return axios.get(
-    `https://api.nextcolony.io/loadfleetmission?user=${account}&active=1`
+    `https://api.nextcolony.io/loadfleetmission?user=${account}&active=1`,
   );
 };
 
-const fleetMissionOutgoing = account => {
+const fleetMissionOutgoing = (account, planetId) => {
   return axios.get(
-    `https://api.nextcolony.io/loadfleetmission?user=${account}&limit=50&outgoing=1`
+    `https://api.nextcolony.io/loadfleetmission?planetid=${planetId}&user=${account}&active=1`,
   );
 };
 
 const loadFleet = (account, planetId) => {
   return axios.get(
-    `https://api.nextcolony.io/loadfleet?user=${account}&planetid=${planetId}`
+    `https://api.nextcolony.io/loadfleet?user=${account}&planetid=${planetId}`,
   );
 };

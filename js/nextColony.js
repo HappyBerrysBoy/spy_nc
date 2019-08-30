@@ -20,14 +20,14 @@ const nextColony = {
         $("#content").append(
           componentFormats.inputComponent.replace(/{{account}}/g, "") +
             componentFormats.planetComponent +
-            componentFormats.planetDetailComponent
+            componentFormats.planetDetailComponent,
         );
 
         $("#loadAccount").on("click", function() {
           self.loadPlanets();
         });
-      }
-    }
+      },
+    },
   },
   loadPlanets() {
     if (
@@ -38,6 +38,7 @@ const nextColony = {
       return;
 
     $("#planetList").html("");
+
     loadplanets($("#inputAccount").val()).then(l => {
       if (l.data.planets.length == 0) return;
       l.data.planets.forEach(p => {
@@ -47,98 +48,124 @@ const nextColony = {
             .replace(/{{name}}/g, p.name)
             .replace(/{{x}}/g, p.posx)
             .replace(/{{y}}/g, p.posy)
-            .replace(/{{starter}}/g, p.starter == 1)
+            .replace(/{{starter}}/g, p.starter == 1),
         );
       });
 
       $(".planetId").on("click", async function() {
         $("#planetDetail").html("");
 
-        await loadplanet($(this).attr("data-id"))
-          .then(d => {
-            let data = d.data;
-            $("#planetDetail").append(
-              componentFormats.planetBasicInfo
-                .replace(/{{base}}/g, data.level_base)
-                .replace(/{{coal}}/g, data.level_coal)
-                .replace(/{{ore}}/g, data.level_ore)
-                .replace(/{{copper}}/g, data.level_copper)
-                .replace(/{{uranium}}/g, data.level_uranium)
-                .replace(/{{coaldepot}}/g, data.level_coaldepot)
-                .replace(/{{oredepot}}/g, data.level_oredepot)
-                .replace(/{{copperdepot}}/g, data.level_copperdepot)
-                .replace(/{{uraniumdepot}}/g, data.level_uraniumdepot)
-                .replace(/{{shipyard}}/g, data.level_ship)
-                .replace(/{{research}}/g, data.level_research)
-                .replace(/{{rarity}}/g, data.planet_rarity)
-            );
-          })
-          .catch(e => {
-            console.log(e);
-            alert("Fail to load data");
-          });
-
-        await loadqyt($(this).attr("data-id"))
-          .then(d => {
-            let data = d.data;
-
-            let currDate = +new Date();
-            let gap = currDate / 1000 - data.lastUpdate;
-
-            let availCoal = data.coal + (gap * data.coalrate) / 24 / 60 / 60;
-            let availCopper =
-              data.copper + (gap * data.copperrate) / 24 / 60 / 60;
-            let availOre = data.ore + (gap * data.orerate) / 24 / 60 / 60;
-            let availUranium =
-              data.uranium + (gap * data.uraniumrate) / 24 / 60 / 60;
-
-            if (availCoal > data.coaldepot) availCoal = data.coaldepot;
-            if (availCopper > data.copperdepot) availCopper = data.copperdepot;
-            if (availOre > data.oredepot) availOre = data.oredepot;
-            if (availUranium > data.uraniumdepot)
-              availUranium = data.uraniumdepot;
-
-            $("#planetDetail").append(
-              componentFormats.planetQtyInfo
-                .replace(/{{coal}}/g, availCoal.toFixed(1))
-                .replace(/{{ore}}/g, availOre.toFixed(1))
-                .replace(/{{copper}}/g, availCopper.toFixed(1))
-                .replace(/{{uranium}}/g, availUranium.toFixed(1))
-                .replace(/{{coaldepot}}/g, data.coaldepot)
-                .replace(/{{oredepot}}/g, data.oredepot)
-                .replace(/{{copperdepot}}/g, data.copperdepot)
-                .replace(/{{uraniumdepot}}/g, data.uraniumdepot)
-            );
-          })
-          .catch(e => {
-            console.log(e);
-            alert("Fail to load data");
-          });
-
-        await loadFleet($("#inputAccount").val(), $(this).attr("data-id"))
-          .then(d => {
-            let map = new Map();
-            d.data.forEach(v => {
-              if (map.has(v.longname)) {
-                map.set(v.longname, map.get(v.longname) + 1);
-              } else {
-                map.set(v.longname, 1);
-              }
-            });
-
-            $("#planetDetail").append(componentFormats.planetFleetInfo);
-
-            for (var [keyinfo, value] of map.entries()) {
-              $("#shipDetailInfo").append(
-                componentFormats.detailRow
-                  .replace(/{{name}}/g, keyinfo)
-                  .replace(/{{val}}/g, value)
+        axios
+          .all([
+            loadplanet($(this).attr("data-id")),
+            loadqyt($(this).attr("data-id")),
+            loadFleet($("#inputAccount").val(), $(this).attr("data-id")),
+            fleetMissionOutgoing(
+              $("#inputAccount").val(),
+              $(this).attr("data-id"),
+            ),
+          ]) // axios.all로 여러 개의 request를 보내고
+          .then(
+            axios.spread((a, b, c, d) => {
+              // Planet Info
+              let planetInfo = a.data;
+              $("#planetDetail").append(
+                componentFormats.planetBasicInfo
+                  .replace(/{{base}}/g, planetInfo.level_base)
+                  .replace(/{{coal}}/g, planetInfo.level_coal)
+                  .replace(/{{ore}}/g, planetInfo.level_ore)
+                  .replace(/{{copper}}/g, planetInfo.level_copper)
+                  .replace(/{{uranium}}/g, planetInfo.level_uranium)
+                  .replace(/{{coaldepot}}/g, planetInfo.level_coaldepot)
+                  .replace(/{{oredepot}}/g, planetInfo.level_oredepot)
+                  .replace(/{{copperdepot}}/g, planetInfo.level_copperdepot)
+                  .replace(/{{uraniumdepot}}/g, planetInfo.level_uraniumdepot)
+                  .replace(/{{shipyard}}/g, planetInfo.level_ship)
+                  .replace(/{{research}}/g, planetInfo.level_research)
+                  .replace(/{{rarity}}/g, planetInfo.planet_rarity),
               );
-            }
-          })
-          .catch(e => {
-            console.log(e);
-            alert("Fail to load data");
+
+              // Planet Quantity
+              let loadQty = b.data;
+
+              let currDate = +new Date();
+              let gap = currDate / 1000 - loadQty.lastUpdate;
+
+              let availCoal =
+                loadQty.coal + (gap * loadQty.coalrate) / 24 / 60 / 60;
+              let availCopper =
+                loadQty.copper + (gap * loadQty.copperrate) / 24 / 60 / 60;
+              let availOre =
+                loadQty.ore + (gap * loadQty.orerate) / 24 / 60 / 60;
+              let availUranium =
+                loadQty.uranium + (gap * loadQty.uraniumrate) / 24 / 60 / 60;
+
+              if (availCoal > loadQty.coaldepot) availCoal = loadQty.coaldepot;
+              if (availCopper > loadQty.copperdepot)
+                availCopper = loadQty.copperdepot;
+              if (availOre > loadQty.oredepot) availOre = loadQty.oredepot;
+              if (availUranium > loadQty.uraniumdepot)
+                availUranium = loadQty.uraniumdepot;
+
+              $("#planetDetail").append(
+                componentFormats.planetQtyInfo
+                  .replace(/{{coal}}/g, availCoal.toFixed(1))
+                  .replace(/{{ore}}/g, availOre.toFixed(1))
+                  .replace(/{{copper}}/g, availCopper.toFixed(1))
+                  .replace(/{{uranium}}/g, availUranium.toFixed(1))
+                  .replace(/{{coaldepot}}/g, loadQty.coaldepot)
+                  .replace(/{{oredepot}}/g, loadQty.oredepot)
+                  .replace(/{{copperdepot}}/g, loadQty.copperdepot)
+                  .replace(/{{uraniumdepot}}/g, loadQty.uraniumdepot),
+              );
+
+              // Planet Ship Info
+              let map = new Map();
+              c.data.forEach(v => {
+                if (map.has(v.type)) {
+                  map.set(v.type, {
+                    ttl: map.get(v.type)["ttl"] + 1,
+                    leave: 0,
+                  });
+                } else {
+                  map.set(v.type, { ttl: 1, leave: 0 });
+                }
+              });
+
+              d.data.forEach(v => {
+                const ships = v.ships;
+                console.log(`ships:${ships}`);
+
+                Object.keys(v.ships).forEach(ship => {
+                  if (ship === "total") return;
+
+                  if (map.has(ship)) {
+                    map.set(ship, {
+                      ttl: map.get(ship).ttl + ships[ship].n,
+                      leave: map.get(ship).leave + ships[ship].n,
+                    });
+                  } else {
+                    map.set(ship, {
+                      ttl: ships[ship].n,
+                      leave: ships[ship].n,
+                    });
+                  }
+                });
+              });
+
+              $("#planetDetail").append(componentFormats.planetShipInfo);
+
+              for (var [keyinfo, value] of map.entries()) {
+                $("#shipDetailInfo").append(
+                  componentFormats.detailRow
+                    .replace(/{{name}}/g, keyinfo)
+                    .replace(/{{val}}/g, `${value.leave}/${value.ttl}`),
+                );
+              }
+            }),
+          )
+          .catch(error => {
+            console.error(error);
           });
       });
     });
@@ -174,5 +201,5 @@ const nextColony = {
       $(this).addClass("active");
       self.subMenu[$(this).attr("data-submenu")].onload();
     });
-  }
+  },
 };

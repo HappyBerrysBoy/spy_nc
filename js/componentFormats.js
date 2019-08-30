@@ -11,7 +11,7 @@ const componentFormats = {
   </div>
   `,
   planetComponent: `
-  Planet List
+  <h3>Planet List</h3>
   <div>
     <table class="table table-sm">
       <thead>
@@ -20,7 +20,6 @@ const componentFormats = {
           <th scope="col">Id</th>
           <th scope="col">X</th>
           <th scope="col">Y</th>
-          <th scope="col">Starter</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -36,7 +35,6 @@ const componentFormats = {
       <td>{{id}}</td>
       <td>{{x}}</td>
       <td>{{y}}</td>
-      <td>{{starter}}</td>
       <td><button data-id="{{id}}" class="btn btn-primary btn-sm btn-block planetId">Detail</button></td>
     </tr>
   `,
@@ -44,7 +42,7 @@ const componentFormats = {
   <div id="planetDetail"/>
   `,
   planetBasicInfo: `
-  Planet Basic Info
+  <h3>Planet Basic Info</h3>
   <div>
     <table class="table table-sm">
       <thead>
@@ -71,7 +69,7 @@ const componentFormats = {
   </div>
   `,
   planetQtyInfo: `
-  Planet Resource Info
+  <h3>Planet Resource Info</h3>
   <div>
     <table class="table table-sm">
       <thead>
@@ -93,8 +91,8 @@ const componentFormats = {
     </table>
   </div>
   `,
-  planetFleetInfo: `
-  Planet Ships Info
+  planetShipInfo: `
+  <h3>Planet Ships Info</h3>
   <div>
     <table class="table table-sm">
       <thead>
@@ -108,5 +106,20 @@ const componentFormats = {
     </table>
   </div>
   `,
-  detailRow: `<tr><td>{{name}}</td><td>{{val}}</td></tr>`
+  detailRow: `<tr><td>{{name}}</td><td>{{val}}</td></tr>`,
+  planetFleetInfo: `
+  <h3>Planet Fleet Info</h3>
+  <div>
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Val</th>
+        </tr>
+      </thead>
+      <tbody id="leaveShipDetailInfo">
+      </tbody>
+    </table>
+  </div>
+  `,
 };
