@@ -190,6 +190,18 @@ const nextColony = {
                 Object.keys(v.ships).forEach(ship => {
                   if (ship === "total") return;
 
+                  if (
+                    v.type === "deploy" ||
+                    v.type === "siege" ||
+                    v.type === "attack"
+                  ) {
+                    if (
+                      planetInfo.planet_corx !== v.start_x ||
+                      planetInfo.planet_cory !== v.start_y
+                    )
+                      return;
+                  }
+
                   if (map.has(ship)) {
                     map.set(ship, {
                       ttl: map.get(ship).ttl + ships[ship].n,
