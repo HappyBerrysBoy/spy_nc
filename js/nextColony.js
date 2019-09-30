@@ -77,6 +77,33 @@ const nextColony = {
             localStorage.setItem(storageId, [selId]);
           }
         });
+
+        $("#calcTime").on("click", function() {
+          try {
+            const planet1X = parseInt($("#planet1X").val());
+            const planet1Y = parseInt($("#planet1Y").val());
+            const planet2X = parseInt($("#planet2X").val());
+            const planet2Y = parseInt($("#planet2Y").val());
+            const speed = parseInt($("#speed").val());
+
+            const calcResult =
+              Math.sqrt(
+                (planet1X - planet2X) ** 2 + (planet1Y - planet2Y) ** 2,
+              ) / speed;
+            const minutes = (calcResult % 1) * 60;
+
+            $("#calcResult").val(calcResult);
+            $("#resultTime").val(
+              `${Math.floor(calcResult)}시간 ${Math.floor(minutes)}분 ${(
+                (minutes % 1) *
+                60
+              ).toFixed(0)}초`,
+            );
+          } catch (e) {
+            console.log(e);
+            $("#calcResult").val(e);
+          }
+        });
       },
     },
   },
