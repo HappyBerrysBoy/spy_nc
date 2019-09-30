@@ -1,43 +1,46 @@
 const componentFormats = {
   inputComponent: `
   <div class="row">
+    <h3 style="margin-left:2.5%;">Distance Calculator</h3>
+    <div class="row" style="border:3px solid #023;border-radius:10px;margin:1% 2.5%;padding:10px;">
+      <div class="col-md-1 mb-1">
+        <label for="firstName">P1 X</label>
+        <input type="text" class="form-control" id="planet1X" placeholder="" value="" required="">
+      </div>
+      <div class="col-md-1 mb-1">
+        <label for="firstName">P1 Y</label>
+        <input type="text" class="form-control" id="planet1Y" placeholder="" value="" required="">
+      </div>
+      <div class="col-md-1 mb-1">
+        <label for="firstName">P2 X</label>
+        <input type="text" class="form-control" id="planet2X" placeholder="" value="" required="">
+      </div>
+      <div class="col-md-1 mb-1">
+        <label for="firstName">P2 Y</label>
+        <input type="text" class="form-control" id="planet2Y" placeholder="" value="" required="">
+      </div>
+      <div class="col-md-2 mb-2">
+        <label for="firstName">Slowest Speed</label>
+        <input type="text" class="form-control" id="speed" placeholder="" value="" required="">
+      </div>
+      <div class="col-md-2 mb-2">
+        <label for="firstName">Result</label>
+        <input type="text" class="form-control" id="calcResult" placeholder="" value="" required="" readonly>
+      </div>
+      <div class="col-md-2 mb-2">
+        <label for="firstName">Result Time</label>
+        <input type="text" class="form-control" id="resultTime" placeholder="" value="" required="" readonly>
+      </div>
+      <div class="col-md-2 mb-2">
+        <button type="submit" id="calcTime" class="btn btn-primary btn-lg btn-block">Calc</button>
+      </div>
+    </div>
     <div class="col-md-6 mb-3">
       <label for="firstName">Input Account</label>
       <input type="text" class="form-control" id="inputAccount" placeholder="" value="happyberrysboy" required="">
     </div>
     <div class="col-md-6 mb-3">
       <button type="submit" id="loadAccount" class="btn btn-primary btn-lg btn-block">Load</button>
-    </div>
-    <div class="col-md-1 mb-1">
-      <label for="firstName">P1 X</label>
-      <input type="text" class="form-control" id="planet1X" placeholder="" value="" required="">
-    </div>
-    <div class="col-md-1 mb-1">
-      <label for="firstName">P1 Y</label>
-      <input type="text" class="form-control" id="planet1Y" placeholder="" value="" required="">
-    </div>
-    <div class="col-md-1 mb-1">
-      <label for="firstName">P2 X</label>
-      <input type="text" class="form-control" id="planet2X" placeholder="" value="" required="">
-    </div>
-    <div class="col-md-1 mb-1">
-      <label for="firstName">P2 Y</label>
-      <input type="text" class="form-control" id="planet2Y" placeholder="" value="" required="">
-    </div>
-    <div class="col-md-2 mb-2">
-      <label for="firstName">Slowest Speed</label>
-      <input type="text" class="form-control" id="speed" placeholder="" value="" required="">
-    </div>
-    <div class="col-md-2 mb-2">
-      <label for="firstName">Result</label>
-      <input type="text" class="form-control" id="calcResult" placeholder="" value="" required="" readonly>
-    </div>
-    <div class="col-md-2 mb-2">
-      <label for="firstName">Result Time</label>
-      <input type="text" class="form-control" id="resultTime" placeholder="" value="" required="" readonly>
-    </div>
-    <div class="col-md-2 mb-2">
-      <button type="submit" id="calcTime" class="btn btn-primary btn-lg btn-block">Calc</button>
     </div>
     <div id="accountShortcut" style="padding:5px;">
     </div>
