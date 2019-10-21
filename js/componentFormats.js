@@ -47,11 +47,12 @@ const componentFormats = {
   </div>
   `,
   planetComponent: `
-  <h3>Planet List</h3>
+  <h3><td>Planet List</td><td></h3>
   <div>
     <table class="table table-sm">
       <thead>
         <tr>
+          <th scope="col">Count</th>
           <th scope="col">Name</th>
           <th scope="col">Id</th>
           <th scope="col">X</th>
@@ -67,6 +68,7 @@ const componentFormats = {
   `,
   planetListItem: `
     <tr>
+      <td>{{count}}</td>
       <td>{{name}}</td>
       <td>{{id}}</td>
       <td>{{x}}</td>
@@ -112,17 +114,14 @@ const componentFormats = {
         <tr>
           <th scope="col">Name</th>
           <th scope="col">Val</th>
+          <th scope="col">Depot</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>Coal</td><td>{{coal}}</td></tr>
-        <tr><td>Ore</td><td>{{ore}}</td></tr>
-        <tr><td>Copper</td><td>{{copper}}</td></tr>
-        <tr><td>Uranium</td><td>{{uranium}}</td></tr>
-        <tr><td>CoalDepot</td><td>{{coaldepot}}</td></tr>
-        <tr><td>OreDepot</td><td>{{oredepot}}</td></tr>
-        <tr><td>CopperDepot</td><td>{{copperdepot}}</td></tr>
-        <tr><td>UraniumDepot</td><td>{{uraniumdepot}}</td></tr>
+        <tr><td>Coal</td><td>{{coal}}</td><td>{{coaldepot}}</td></tr>
+        <tr><td>Ore</td><td>{{ore}}</td><td>{{oredepot}}</td></tr>
+        <tr><td>Copper</td><td>{{copper}}</td><td>{{copperdepot}}</td></tr>
+        <tr><td>Uranium</td><td>{{uranium}}</td><td>{{uraniumdepot}}</td></tr>
       </tbody>
     </table>
   </div>

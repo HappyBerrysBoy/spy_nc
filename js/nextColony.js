@@ -119,14 +119,18 @@ const nextColony = {
 
     loadplanets($("#inputAccount").val()).then(l => {
       if (l.data.planets.length == 0) return;
-      l.data.planets.forEach(p => {
+      l.data.planets.sort(function(a,b) {
+        return (a.date < b.date) ? -1 : a.date > b.date ? 1 : 0;
+      });
+      l.data.planets.forEach((value, index, array) => {
         $("#planetList").append(
           componentFormats.planetListItem
-            .replace(/{{id}}/g, p.id)
-            .replace(/{{name}}/g, p.name)
-            .replace(/{{x}}/g, p.posx)
-            .replace(/{{y}}/g, p.posy)
-            .replace(/{{starter}}/g, p.starter == 1),
+            .replace(/{{count}}/g, index+1)
+            .replace(/{{id}}/g, l.data.planets[index].id)
+            .replace(/{{name}}/g, l.data.planets[index].name)
+            .replace(/{{x}}/g, l.data.planets[index].posx)
+            .replace(/{{y}}/g, l.data.planets[index].posy)
+            .replace(/{{starter}}/g, l.data.planets[index].starter == 1),
         );
       });
 
