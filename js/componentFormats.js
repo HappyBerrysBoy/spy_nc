@@ -48,7 +48,7 @@ const componentFormats = {
   <div id="contentBody"></div>
   `,
   planetComponent: `
-  <h3><td>Planet List({{accountInfo}})</td><td></h3>
+  <h3><td>Planet List&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;{{accountInfo}}</td><td></h3>
   <div>
     <table class="table table-sm">
       <thead>
@@ -81,7 +81,7 @@ const componentFormats = {
   <div id="planetDetail"/>
   `,
   planetBasicInfo: `
-  <h3>Planet Basic Info</h3>
+  <h3> {{planetinfo}} &nbsp;Basic Info</h3>
   <div>
     <table class="table table-sm">
       <thead>
@@ -110,7 +110,7 @@ const componentFormats = {
   </div>
   `,
   planetQtyInfo: `
-  <h3>Planet Resource Info</h3>
+  <h3> {{planetinfo}} &nbsp;Resource Info</h3>
   <div>
     <table class="table table-sm">
       <thead>
@@ -131,7 +131,7 @@ const componentFormats = {
   </div>
   `,
   planetShipInfo: `
-  <h3>Planet Ships Info</h3>
+  <h3> {{planetinfo}} &nbsp;Ships Info</h3>
   <div>
     <table class="table table-sm">
       <thead>
@@ -148,13 +148,13 @@ const componentFormats = {
   `,
   detailRow: `<tr><td>{{name}}</td><td>{{using}}</td><td>{{total}}</td></tr>`,
   planetFleetInfo: `
-  <h3>Planet Fleet Info</h3>
+  <h3> {{planetinfo}} &nbsp;Fleet Info</h3>
   <div>
     <table class="table table-sm">
       <thead>
         <tr>
           <th scope="col">Type</th>
-          <th scope="col">To</th>
+          <th scope="col">From / To</th>
           <th scope="col">Arrival</th>
           <th scope="col">Return</th>
           <th scope="col">Ships</th>

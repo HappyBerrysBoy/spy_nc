@@ -123,7 +123,7 @@ const nextColony = {
       $("#contentBody").append(
         componentFormats.planetComponent.replace(
           /{{accountInfo}}/g,
-          `${account}, ${l.data.planets.length}`,
+          `${account} < ${l.data.planets.length} >`,
         ) + componentFormats.planetDetailComponent,
       );
 
@@ -163,8 +163,10 @@ const nextColony = {
               let planetInfo = a.data;
               let skillInfo = f.data;
               let cur_time = parseInt(new Date() / 1000);
+              let planetInfoStr = `[${planetInfo.planet_id}] ${planetInfo.planet_name} (${planetInfo.planet_corx}/${planetInfo.planet_cory})`;
               $("#planetDetail").append(
                 componentFormats.planetBasicInfo
+                  .replace(/{{planetinfo}}/g, planetInfoStr)
                   .replace(/{{base}}/g, planetInfo.level_base)
                   .replace(/{{coal}}/g, planetInfo.level_coal)
                   .replace(/{{ore}}/g, planetInfo.level_ore)
@@ -233,6 +235,7 @@ const nextColony = {
               let loadProduct = e.data;
               $("#planetDetail").append(
                 componentFormats.planetQtyInfo
+                  .replace(/{{planetinfo}}/g, planetInfoStr)
                   .replace(/{{coal}}/g, availCoal.toFixed(1))
                   .replace(/{{ore}}/g, availOre.toFixed(1))
                   .replace(/{{copper}}/g, availCopper.toFixed(1))
@@ -299,7 +302,9 @@ const nextColony = {
                 });
               });
 
-              $("#planetDetail").append(componentFormats.planetShipInfo);
+              $("#planetDetail").append(
+                componentFormats.planetShipInfo.replace(/{{planetinfo}}/g, planetInfoStr)
+              );
 
               for (var [keyinfo, value] of map.entries()) {
                 $("#shipDetailInfo").append(
@@ -310,7 +315,9 @@ const nextColony = {
                 );
               }
 
-              $("#planetDetail").append(componentFormats.planetFleetInfo);
+              $("#planetDetail").append(
+                componentFormats.planetFleetInfo.replace(/{{planetinfo}}/g, planetInfoStr)
+              );
 
               d.data.forEach(v => {
                 const ships = v.ships;
@@ -331,8 +338,11 @@ const nextColony = {
 
                     content += `${ship}:Count(${ships[ship].n}), Position(${ships[ship].pos}) \n`;
                   });
-
-                  toInfo = `${v.to_planet.user}, ${v.to_planet.name}(${v.end_x},${v.end_y})`;
+                  if(v.from_planet.id == planetInfo.planet_id){
+                    toInfo = `T> ${v.to_planet.user}, ${v.to_planet.name}(${v.end_x},${v.end_y})`;
+                  } else {
+                    toInfo = `F< ${v.from_planet.user}, ${v.from_planet.name}(${v.start_x},${v.start_y})`;
+                  }
                 }
 
                 $("#leaveShipDetailInfo").append(
