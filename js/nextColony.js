@@ -41,11 +41,11 @@ const nextColony = {
       onload() {
         $("#content").html("");
 
-        $("#content").append(
-          componentFormats.inputComponent.replace(/{{account}}/g, "") +
-            componentFormats.planetComponent +
-            componentFormats.planetDetailComponent,
-        );
+        // $("#content").append(
+        //   componentFormats.inputComponent.replace(/{{account}}/g, "") +
+        //     componentFormats.planetComponent +
+        //     componentFormats.planetDetailComponent,
+        // );
 
         $("#loadAccount").on("click", function() {
           self.loadPlanets();
@@ -117,15 +117,27 @@ const nextColony = {
 
     $("#planetList").html("");
 
-    loadplanets($("#inputAccount").val()).then(l => {
+    const account = $("#inputAccount").val();
+
+    loadplanets(account).then(l => {
       if (l.data.planets.length == 0) return;
-      l.data.planets.sort(function(a,b) {
-        return (a.date < b.date) ? -1 : a.date > b.date ? 1 : 0;
+
+      $("#content").append(
+        componentFormats.inputComponent.replace(/{{account}}/g, "") +
+          componentFormats.planetComponent.replace(
+            /{{accountInfo}}/g,
+            `Account:${account}, Count:${l.data.planets.length}`,
+          ) +
+          componentFormats.planetDetailComponent,
+      );
+
+      l.data.planets.sort(function(a, b) {
+        return a.date < b.date ? -1 : a.date > b.date ? 1 : 0;
       });
       l.data.planets.forEach((value, index, array) => {
         $("#planetList").append(
           componentFormats.planetListItem
-            .replace(/{{count}}/g, index+1)
+            .replace(/{{count}}/g, index + 1)
             .replace(/{{id}}/g, l.data.planets[index].id)
             .replace(/{{name}}/g, l.data.planets[index].name)
             .replace(/{{x}}/g, l.data.planets[index].posx)

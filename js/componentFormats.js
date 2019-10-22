@@ -47,7 +47,7 @@ const componentFormats = {
   </div>
   `,
   planetComponent: `
-  <h3><td>Planet List</td><td></h3>
+  <h3><td>Planet List({{accountInfo}})</td><td></h3>
   <div>
     <table class="table table-sm">
       <thead>
