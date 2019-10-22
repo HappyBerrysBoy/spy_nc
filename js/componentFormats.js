@@ -45,6 +45,7 @@ const componentFormats = {
     <div id="accountShortcut" style="padding:5px;">
     </div>
   </div>
+  <div id="contentBody"></div>
   `,
   planetComponent: `
   <h3><td>Planet List({{accountInfo}})</td><td></h3>

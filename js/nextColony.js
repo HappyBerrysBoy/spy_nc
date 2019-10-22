@@ -41,11 +41,9 @@ const nextColony = {
       onload() {
         $("#content").html("");
 
-        // $("#content").append(
-        //   componentFormats.inputComponent.replace(/{{account}}/g, "") +
-        //     componentFormats.planetComponent +
-        //     componentFormats.planetDetailComponent,
-        // );
+        $("#content").append(
+          componentFormats.inputComponent.replace(/{{account}}/g, ""),
+        );
 
         $("#loadAccount").on("click", function() {
           self.loadPlanets();
@@ -115,20 +113,18 @@ const nextColony = {
     )
       return;
 
-    $("#planetList").html("");
+    $("#contentBody").html("");
 
     const account = $("#inputAccount").val();
 
     loadplanets(account).then(l => {
       if (l.data.planets.length == 0) return;
 
-      $("#content").append(
-        componentFormats.inputComponent.replace(/{{account}}/g, "") +
-          componentFormats.planetComponent.replace(
-            /{{accountInfo}}/g,
-            `Account:${account}, Count:${l.data.planets.length}`,
-          ) +
-          componentFormats.planetDetailComponent,
+      $("#contentBody").append(
+        componentFormats.planetComponent.replace(
+          /{{accountInfo}}/g,
+          `${account}, ${l.data.planets.length}`,
+        ) + componentFormats.planetDetailComponent,
       );
 
       l.data.planets.sort(function(a, b) {
@@ -158,7 +154,7 @@ const nextColony = {
               $("#inputAccount").val(),
               $(this).attr("data-id"),
             ),
-            loadproduction($(this).attr("data-id"),$("#inputAccount").val()),
+            loadproduction($(this).attr("data-id"), $("#inputAccount").val()),
             loadskills($("#inputAccount").val()),
           ]) // axios.all로 여러 개의 request를 보내고
           .then(
@@ -166,7 +162,7 @@ const nextColony = {
               // Planet Info
               let planetInfo = a.data;
               let skillInfo = f.data;
-              let cur_time = parseInt((new Date())/1000);
+              let cur_time = parseInt(new Date() / 1000);
               $("#planetDetail").append(
                 componentFormats.planetBasicInfo
                   .replace(/{{base}}/g, planetInfo.level_base)
@@ -180,7 +176,16 @@ const nextColony = {
                   .replace(/{{uraniumdepot}}/g, planetInfo.level_uraniumdepot)
                   .replace(/{{shipyard}}/g, planetInfo.level_ship)
                   .replace(/{{research}}/g, planetInfo.level_research)
-                  .replace(/{{charge}}/g, (planetInfo.shieldcharged==1)?'Charged':((planetInfo.shieldcharge_busy > cur_time)?`Charging (${new Date(planetInfo.shieldcharge_busy * 1000).toLocaleString()})`:'Not charged'))
+                  .replace(
+                    /{{charge}}/g,
+                    planetInfo.shieldcharged == 1
+                      ? "Charged"
+                      : planetInfo.shieldcharge_busy > cur_time
+                      ? `Charging (${new Date(
+                          planetInfo.shieldcharge_busy * 1000,
+                        ).toLocaleString()})`
+                      : "Not charged",
+                  )
                   .replace(/{{baseSkill}}/g, skillInfo[21].current)
                   .replace(/{{coalSkill}}/g, skillInfo[19].current)
                   .replace(/{{oreSkill}}/g, skillInfo[17].current)
@@ -192,7 +197,14 @@ const nextColony = {
                   .replace(/{{uraniumdepotSkill}}/g, skillInfo[4].current)
                   .replace(/{{shipyardSkill}}/g, skillInfo[0].current)
                   .replace(/{{researchSkill}}/g, skillInfo[22].current)
-                  .replace(/{{protect}}/g, (planetInfo.shieldprotection_busy > cur_time)?`Activated (${new Date(planetInfo.shieldprotection_busy * 1000).toLocaleString()})`:'Not activated')
+                  .replace(
+                    /{{protect}}/g,
+                    planetInfo.shieldprotection_busy > cur_time
+                      ? `Activated (${new Date(
+                          planetInfo.shieldprotection_busy * 1000,
+                        ).toLocaleString()})`
+                      : "Not activated",
+                  )
                   .replace(/{{rarity}}/g, planetInfo.planet_rarity),
               );
 
@@ -231,8 +243,14 @@ const nextColony = {
                   .replace(/{{uraniumdepot}}/g, loadQty.uraniumdepot)
                   .replace(/{{coalsafe}}/g, loadProduct.coal.safe.toFixed(2))
                   .replace(/{{oresafe}}/g, loadProduct.ore.safe.toFixed(2))
-                  .replace(/{{coppersafe}}/g, loadProduct.copper.safe.toFixed(2))
-                  .replace(/{{uraniumsafe}}/g, loadProduct.uranium.safe.toFixed(2)),
+                  .replace(
+                    /{{coppersafe}}/g,
+                    loadProduct.copper.safe.toFixed(2),
+                  )
+                  .replace(
+                    /{{uraniumsafe}}/g,
+                    loadProduct.uranium.safe.toFixed(2),
+                  ),
               );
 
               // Planet Ship Info
