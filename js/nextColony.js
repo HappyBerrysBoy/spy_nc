@@ -158,11 +158,15 @@ const nextColony = {
               $("#inputAccount").val(),
               $(this).attr("data-id"),
             ),
+            loadproduction($(this).attr("data-id"),$("#inputAccount").val()),
+            loadskills($("#inputAccount").val()),
           ]) // axios.all로 여러 개의 request를 보내고
           .then(
-            axios.spread((a, b, c, d) => {
+            axios.spread((a, b, c, d, e, f) => {
               // Planet Info
               let planetInfo = a.data;
+              let skillInfo = f.data;
+              let cur_time = parseInt((new Date())/1000);
               $("#planetDetail").append(
                 componentFormats.planetBasicInfo
                   .replace(/{{base}}/g, planetInfo.level_base)
@@ -176,6 +180,19 @@ const nextColony = {
                   .replace(/{{uraniumdepot}}/g, planetInfo.level_uraniumdepot)
                   .replace(/{{shipyard}}/g, planetInfo.level_ship)
                   .replace(/{{research}}/g, planetInfo.level_research)
+                  .replace(/{{charge}}/g, (planetInfo.shieldcharged==1)?'Charged':((planetInfo.shieldcharge_busy > cur_time)?`Charging (${new Date(planetInfo.shieldcharge_busy * 1000).toLocaleString()})`:'Not charged'))
+                  .replace(/{{baseSkill}}/g, skillInfo[21].current)
+                  .replace(/{{coalSkill}}/g, skillInfo[19].current)
+                  .replace(/{{oreSkill}}/g, skillInfo[17].current)
+                  .replace(/{{copperSkill}}/g, skillInfo[18].current)
+                  .replace(/{{uraniumSkill}}/g, skillInfo[20].current)
+                  .replace(/{{coaldepotSkill}}/g, skillInfo[3].current)
+                  .replace(/{{oredepotSkill}}/g, skillInfo[1].current)
+                  .replace(/{{copperdepotSkill}}/g, skillInfo[2].current)
+                  .replace(/{{uraniumdepotSkill}}/g, skillInfo[4].current)
+                  .replace(/{{shipyardSkill}}/g, skillInfo[0].current)
+                  .replace(/{{researchSkill}}/g, skillInfo[22].current)
+                  .replace(/{{protect}}/g, (planetInfo.shieldprotection_busy > cur_time)?`Activated (${new Date(planetInfo.shieldprotection_busy * 1000).toLocaleString()})`:'Not activated')
                   .replace(/{{rarity}}/g, planetInfo.planet_rarity),
               );
 
@@ -201,6 +218,7 @@ const nextColony = {
               if (availUranium > loadQty.uraniumdepot)
                 availUranium = loadQty.uraniumdepot;
 
+              let loadProduct = e.data;
               $("#planetDetail").append(
                 componentFormats.planetQtyInfo
                   .replace(/{{coal}}/g, availCoal.toFixed(1))
@@ -210,7 +228,11 @@ const nextColony = {
                   .replace(/{{coaldepot}}/g, loadQty.coaldepot)
                   .replace(/{{oredepot}}/g, loadQty.oredepot)
                   .replace(/{{copperdepot}}/g, loadQty.copperdepot)
-                  .replace(/{{uraniumdepot}}/g, loadQty.uraniumdepot),
+                  .replace(/{{uraniumdepot}}/g, loadQty.uraniumdepot)
+                  .replace(/{{coalsafe}}/g, loadProduct.coal.safe.toFixed(2))
+                  .replace(/{{oresafe}}/g, loadProduct.ore.safe.toFixed(2))
+                  .replace(/{{coppersafe}}/g, loadProduct.copper.safe.toFixed(2))
+                  .replace(/{{uraniumsafe}}/g, loadProduct.uranium.safe.toFixed(2)),
               );
 
               // Planet Ship Info
@@ -265,7 +287,8 @@ const nextColony = {
                 $("#shipDetailInfo").append(
                   componentFormats.detailRow
                     .replace(/{{name}}/g, keyinfo)
-                    .replace(/{{val}}/g, `${value.leave}/${value.ttl}`),
+                    .replace(/{{using}}/g, value.leave)
+                    .replace(/{{total}}/g, value.ttl),
                 );
               }
 

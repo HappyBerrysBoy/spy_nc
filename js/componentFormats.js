@@ -86,22 +86,24 @@ const componentFormats = {
       <thead>
         <tr>
           <th scope="col">Name</th>
-          <th scope="col">Val</th>
+          <th scope="col">Buinding</th>
+          <th scope="col">Skill</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>Base</td><td>{{base}}</td></tr>
-        <tr><td>Coal</td><td>{{coal}}</td></tr>
-        <tr><td>Ore</td><td>{{ore}}</td></tr>
-        <tr><td>Copper</td><td>{{copper}}</td></tr>
-        <tr><td>Uranium</td><td>{{uranium}}</td></tr>
-        <tr><td>CoalDepot</td><td>{{coaldepot}}</td></tr>
-        <tr><td>OreDepot</td><td>{{oredepot}}</td></tr>
-        <tr><td>CopperDepot</td><td>{{copperdepot}}</td></tr>
-        <tr><td>UraniumDepot</td><td>{{uraniumdepot}}</td></tr>
-        <tr><td>Shipyard</td><td>{{shipyard}}</td></tr>
-        <tr><td>Research</td><td>{{research}}</td></tr>
-        <tr><td>Rarity</td><td>{{rarity}}</td></tr>
+        <tr><td>Base</td><td>{{base}}</td><td>{{baseSkill}}</td></tr>
+        <tr><td>Coal</td><td>{{coal}}</td><td>{{coalSkill}}</td></tr>
+        <tr><td>Ore</td><td>{{ore}}</td><td>{{oreSkill}}</td></tr>
+        <tr><td>Copper</td><td>{{copper}}</td><td>{{copperSkill}}</td></tr>
+        <tr><td>Uranium</td><td>{{uranium}}</td><td>{{uraniumSkill}}</td></tr>
+        <tr><td>CoalDepot</td><td>{{coaldepot}}</td><td>{{coaldepotSkill}}</td></tr>
+        <tr><td>OreDepot</td><td>{{oredepot}}</td><td>{{oredepotSkill}}</td></tr>
+        <tr><td>CopperDepot</td><td>{{copperdepot}}</td><td>{{copperdepotSkill}}</td></tr>
+        <tr><td>UraniumDepot</td><td>{{uraniumdepot}}</td><td>{{uraniumSkill}}</td></tr>
+        <tr><td>Shipyard</td><td>{{shipyard}}</td><td>{{shipyardSkill}}</td></tr>
+        <tr><td>Research</td><td>{{research}}</td><td>{{researchSkill}}</td></tr>
+        <tr><td>Shield</td><td>{{charge}}</td><td>{{protect}}</td></tr>
+        <tr><td>Rarity</td><td>{{rarity}}</td><td></td></tr>
       </tbody>
     </table>
   </div>
@@ -112,16 +114,17 @@ const componentFormats = {
     <table class="table table-sm">
       <thead>
         <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Val</th>
+          <th scope="col">Resource Name</th>
+          <th scope="col">Amount</th>
           <th scope="col">Depot</th>
+          <th scope="col">Safe</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>Coal</td><td>{{coal}}</td><td>{{coaldepot}}</td></tr>
-        <tr><td>Ore</td><td>{{ore}}</td><td>{{oredepot}}</td></tr>
-        <tr><td>Copper</td><td>{{copper}}</td><td>{{copperdepot}}</td></tr>
-        <tr><td>Uranium</td><td>{{uranium}}</td><td>{{uraniumdepot}}</td></tr>
+        <tr><td>Coal</td><td>{{coal}}</td><td>{{coaldepot}}</td><td>{{coalsafe}}</td></tr>
+        <tr><td>Ore</td><td>{{ore}}</td><td>{{oredepot}}</td><td>{{oresafe}}</td></tr>
+        <tr><td>Copper</td><td>{{copper}}</td><td>{{copperdepot}}</td><td>{{coppersafe}}</td></tr>
+        <tr><td>Uranium</td><td>{{uranium}}</td><td>{{uraniumdepot}}</td><td>{{uraniumsafe}}</td></tr>
       </tbody>
     </table>
   </div>
@@ -132,8 +135,9 @@ const componentFormats = {
     <table class="table table-sm">
       <thead>
         <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Val</th>
+          <th scope="col">Ships</th>
+          <th scope="col">Using</th>
+          <th scope="col">Total</th>
         </tr>
       </thead>
       <tbody id="shipDetailInfo">
@@ -141,7 +145,7 @@ const componentFormats = {
     </table>
   </div>
   `,
-  detailRow: `<tr><td>{{name}}</td><td>{{val}}</td></tr>`,
+  detailRow: `<tr><td>{{name}}</td><td>{{using}}</td><td>{{total}}</td></tr>`,
   planetFleetInfo: `
   <h3>Planet Fleet Info</h3>
   <div>
