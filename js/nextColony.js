@@ -319,7 +319,23 @@ const nextColony = {
                 componentFormats.planetFleetInfo.replace(/{{planetinfo}}/g, planetInfoStr)
               );
 
-              d.data.forEach(v => {
+              let fleetinfo = d.data;
+              fleetinfo.sort(function(a,b) {
+                if(a.return == null) {
+                  if(b.return == null) {
+                    return a.arrival - b.arrival;
+                  } else {
+                    return a.arrival - b.return;
+                  }
+
+                } else if(b.return == null) {
+                  return a.return - b.arrival;
+                } else {
+                  return a.return - b.return;
+                }
+              });
+
+              fleetinfo.forEach(v => {
                 const ships = v.ships;
                 console.log(`ships:${ships}`);
 
