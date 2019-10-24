@@ -367,7 +367,9 @@ const nextColony = {
                     .replace(/{{to}}/g, toInfo)
                     .replace(
                       /{{arrival}}/g,
-                      new Date(v.arrival * 1000).toLocaleString(),
+                      (v.arrival != v.return)
+                        ?new Date(v.arrival * 1000).toLocaleString()
+                        : "-",
                     )
                     .replace(
                       /{{return}}/g,
