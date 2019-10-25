@@ -67,6 +67,46 @@ const componentFormats = {
     </table>
   </div>
   `,
+  missionComponent: `
+  <h3><td>Missions&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;{{accountInfo}}</td><td></h3>
+  <div>
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Type</th>
+          <th scope="col">From</th>
+          <th scope="col">Origin</th>
+          <th scope="col">To</th>
+          <th scope="col">Destination</th>
+          <th scope="col">Ships</th>
+          <th scope="col">Load</th>
+          <th scope="col">Arrival</th>
+          <th scope="col">Return</th>
+          <th scope="col">Result</th>
+          <th scope="col">Details Cancel</th>
+        </tr>
+      </thead>
+      <tbody id="missionList">
+
+      </tbody>
+    </table>
+  </div>
+  `,
+  missionListItem: `
+    <tr>
+      <td>{{type}}</td>
+      <td>{{from}}</td>
+      <td>{{origin}}</td>
+      <td>{{to}}</td>
+      <td>{{destination}}</td>
+      <td>{{ship}}</td>
+      <td>{{load}}</td>
+      <td>{{arrival}}</td>
+      <td>{{return}}</td>
+      <td>{{result}}</td>
+      <td>{{cancel}}</td>
+    </tr>
+  `,
   planetListItem: `
     <tr>
       <td>{{count}}</td>

@@ -142,6 +142,50 @@ const nextColony = {
         );
       });
 
+      // componentFormats.planetComponent
+      fleetMission(account).then(missions => {
+        console.log("mission", missions);
+        $("#contentBody").append(
+          componentFormats.missionComponent.replace(
+            /{{accountInfo}}/g,
+            `${account} <${missions.data.length} missions>`,
+          ),
+        );
+
+        $("#missionList").html("");
+
+        missions.data.forEach(m => {
+          $("#missionList").append(
+            componentFormats.missionListItem
+              .replace(/{{type}}/g, m.type)
+              .replace(/{{from}}/g, m.from_planet.user)
+              .replace(/{{origin}}/g, `(${m.start_x}/${m.start_y})`)
+              .replace(/{{to}}/g, m.to_planet ? m.to_planet.user : "-")
+              .replace(/{{destination}}/g, `(${m.end_x}/${m.end_y})`)
+              .replace(/{{ship}}/g, m.ships.total)
+              .replace(
+                /{{load}}/g,
+                m.resources.coal +
+                  m.resources.copper +
+                  m.resources.ore +
+                  m.resources.uranium,
+              )
+              .replace(
+                /{{arrival}}/g,
+                `${new Date(m.arrival * 1000).toLocaleString()}`,
+              )
+              .replace(
+                /{{return}}/g,
+                m.return
+                  ? `${new Date(m.return * 1000).toLocaleString()}`
+                  : "-",
+              )
+              .replace(/{{result}}/g, m.result ? m.result : "-")
+              .replace(/{{cancel}}/g, m.cancel_trx ? m.cancel_trx : "-"),
+          );
+        });
+      });
+
       $(".planetId").on("click", async function() {
         $("#planetDetail").html("");
 
@@ -303,7 +347,10 @@ const nextColony = {
               });
 
               $("#planetDetail").append(
-                componentFormats.planetShipInfo.replace(/{{planetinfo}}/g, planetInfoStr)
+                componentFormats.planetShipInfo.replace(
+                  /{{planetinfo}}/g,
+                  planetInfoStr,
+                ),
               );
 
               for (var [keyinfo, value] of map.entries()) {
@@ -316,19 +363,21 @@ const nextColony = {
               }
 
               $("#planetDetail").append(
-                componentFormats.planetFleetInfo.replace(/{{planetinfo}}/g, planetInfoStr)
+                componentFormats.planetFleetInfo.replace(
+                  /{{planetinfo}}/g,
+                  planetInfoStr,
+                ),
               );
 
               let fleetinfo = d.data;
-              fleetinfo.sort(function(a,b) {
-                if(a.return == null) {
-                  if(b.return == null) {
+              fleetinfo.sort(function(a, b) {
+                if (a.return == null) {
+                  if (b.return == null) {
                     return a.arrival - b.arrival;
                   } else {
                     return a.arrival - b.return;
                   }
-
-                } else if(b.return == null) {
+                } else if (b.return == null) {
                   return a.return - b.arrival;
                 } else {
                   return a.return - b.return;
@@ -354,7 +403,7 @@ const nextColony = {
 
                     content += `${ship}:Count(${ships[ship].n}), Position(${ships[ship].pos}) \n`;
                   });
-                  if(v.from_planet.id == planetInfo.planet_id){
+                  if (v.from_planet.id == planetInfo.planet_id) {
                     toInfo = `T> ${v.to_planet.user}, ${v.to_planet.name}(${v.end_x},${v.end_y})`;
                   } else {
                     toInfo = `F< ${v.from_planet.user}, ${v.from_planet.name}(${v.start_x},${v.start_y})`;
@@ -367,8 +416,8 @@ const nextColony = {
                     .replace(/{{to}}/g, toInfo)
                     .replace(
                       /{{arrival}}/g,
-                      (v.arrival != v.return)
-                        ?new Date(v.arrival * 1000).toLocaleString()
+                      v.arrival != v.return
+                        ? new Date(v.arrival * 1000).toLocaleString()
                         : "-",
                     )
                     .replace(
