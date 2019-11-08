@@ -186,6 +186,40 @@ const nextColony = {
         });
       });
 
+      debugger;
+
+      $(".planetP1").on("click", function() {
+        const planetx = $(this)
+          .parent()
+          .parent()
+          .find(".planetX")
+          .text();
+        const planety = $(this)
+          .parent()
+          .parent()
+          .find(".planetY")
+          .text();
+
+        $("#planet1X").val(planetx);
+        $("#planet1Y").val(planety);
+      });
+
+      $(".planetP2").on("click", function() {
+        const planetx = $(this)
+          .parent()
+          .parent()
+          .find(".planetX")
+          .text();
+        const planety = $(this)
+          .parent()
+          .parent()
+          .find(".planetY")
+          .text();
+
+        $("#planet2X").val(planetx);
+        $("#planet2Y").val(planety);
+      });
+
       $(".planetId").on("click", async function() {
         $("#planetDetail").html("");
 

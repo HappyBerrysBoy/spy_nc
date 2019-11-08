@@ -59,6 +59,8 @@ const componentFormats = {
           <th scope="col">X</th>
           <th scope="col">Y</th>
           <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody id="planetList">
@@ -112,9 +114,11 @@ const componentFormats = {
       <td>{{count}}</td>
       <td>{{name}}</td>
       <td>{{id}}</td>
-      <td>{{x}}</td>
-      <td>{{y}}</td>
+      <td class="planetX">{{x}}</td>
+      <td class="planetY">{{y}}</td>
       <td><button data-id="{{id}}" class="btn btn-primary btn-sm btn-block planetId">Detail</button></td>
+      <td><button class="btn btn-primary btn-sm btn-block planetP1">P1</button></td>
+      <td><button class="btn btn-primary btn-sm btn-block planetP2">P2</button></td>
     </tr>
   `,
   planetDetailComponent: `
