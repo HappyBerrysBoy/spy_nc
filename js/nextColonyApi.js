@@ -1,7 +1,7 @@
 // Planet 정보
 const loadplanets = account => {
   return axios.get(
-    `https://api.nextcolony.io/loadplanets?user=${account}&to=200`,
+    `https://api.nextcolony.io/loadplanets?user=${account}&to=300`,
   );
 };
 
