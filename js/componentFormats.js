@@ -37,7 +37,7 @@ const componentFormats = {
       </div>
       <div class="col-md-10 mb-10">
         <label for="firstName">P1 infomation</label>
-        <input type="text" class="form-control" id="p1info" placeholder="" value="" required="" readonly>
+        <textarea class="form-control" id="p1info" readonly></textarea>
       </div>
     </div>
     <div class="col-md-6 mb-3">
@@ -222,5 +222,5 @@ const componentFormats = {
     <td>{{return}}</td>
     <td>{{content}}</td>
   </tr>`,
-  userShortcut: `<button class="btn btn-primary btn-sm btn-block shortcut">{{account}}</button>`,
+  userShortcut: `<button class="btn btn-primary btn-sm btn-block shortcut">{{account}}</button>`
 };
