@@ -21,10 +21,10 @@ const componentFormats = {
       </div>
       <div class="col-md-2 mb-2">
         <label for="firstName">Slowest Speed</label>
-        <input type="text" class="form-control" id="speed" placeholder="" value="" required="">
+        <input type="text" class="form-control" id="speed" placeholder="" value="1" required="">
       </div>
       <div class="col-md-2 mb-2">
-        <label for="firstName">Result</label>
+        <label for="firstName">Distance</label>
         <input type="text" class="form-control" id="calcResult" placeholder="" value="" required="" readonly>
       </div>
       <div class="col-md-2 mb-2">
@@ -33,6 +33,11 @@ const componentFormats = {
       </div>
       <div class="col-md-2 mb-2">
         <button type="submit" id="calcTime" class="btn btn-primary btn-lg btn-block">Calc</button>
+        <button type="submit" id="pointInfo" class="btn btn-primary btn-lg btn-block">P1 Info</button>
+      </div>
+      <div class="col-md-10 mb-10">
+        <label for="firstName">P1 infomation</label>
+        <input type="text" class="form-control" id="p1info" placeholder="" value="" required="" readonly>
       </div>
     </div>
     <div class="col-md-6 mb-3">

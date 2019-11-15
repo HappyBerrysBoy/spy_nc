@@ -102,6 +102,38 @@ const nextColony = {
             $("#calcResult").val(e);
           }
         });
+
+        $("#pointInfo").on("click", function() {
+          try {
+            const planet1X = parseInt($("#planet1X").val());
+            const planet1Y = parseInt($("#planet1Y").val());
+            loadGalaxy(planet1X,planet1Y,0).then(pinfo => {
+              let pdata = pinfo.data;
+              if(pdata.planets.length > 0) {
+                let info = pdata.planets[0];
+                $("#p1info").val(`${info.user}'s Planet`);
+              } else if(pdata.explored.length > 0) {
+                let info = pdata.explored[0];
+                $("#p1info").val(`${info.user} explored at ${new Date(info.date * 1000).toLocaleString()}`);
+              } else if(pdata.explore.length == 1) {
+                let info = pdata.explore[0];
+                $("#p1info").val(`${info.user} explore this point \n arrived at ${new Date(info.date * 1000).toLocaleString()}`);
+              } else if(pdata.explore.length > 1) {
+                let info = pdata.explore;
+                let disp_str = `${info.length} users explore this point\n`
+                for(key in info){
+                  disp_str += `${info[key].user} : ${new Date(info[key].date * 1000).toLocaleString()}`;
+                }
+                $("#p1info").val(disp_str);
+              } else {
+                $("#p1info").val("Clean Point");
+              }
+            });
+          } catch (e) {
+            console.log(e);
+            $("#p1info").val(e);
+          }
+        });
       },
     },
   },

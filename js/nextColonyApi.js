@@ -31,9 +31,9 @@ const loadproduction = (planetId, account) => {
   );
 };
 
-const loadGalaxy = (planetX, planetY) => {
+const loadGalaxy = (planetX, planetY, width = 120) => {
   return axios.get(
-    `https://api.nextcolony.io/loadgalaxy?x=${planetX}&y=${planetY}&height=120&width=120`,
+    `https://api.nextcolony.io/loadgalaxy?x=${planetX}&y=${planetY}&height=${width}&width=${width}`,
   );
 };
 
