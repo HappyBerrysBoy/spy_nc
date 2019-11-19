@@ -31,6 +31,12 @@ const nextColony = {
 
     $("#inputAccount").val(firstAccount);
     $("#loadAccount").trigger("click");
+
+    $("#inputAccount").keydown(function(key) {
+      if (key.keyCode == 13) {
+        $("#loadAccount").trigger("click");
+      }
+    });
   },
   subMenu: {
     account: {
@@ -78,18 +84,32 @@ const nextColony = {
 
         $("#calcTime").on("click", function() {
           try {
-            let planet1P = $("#planet1P").val().split('/');
-            if(planet1P.length != 2){
-              planet1P = $("#planet1P").val().split(',');
-              if(planet1P.length != 2){
-                planet1P = $("#planet1P").val().replace(/ +/g, " ").split(' ');
+            let planet1P = $("#planet1P")
+              .val()
+              .split("/");
+            if (planet1P.length != 2) {
+              planet1P = $("#planet1P")
+                .val()
+                .split(",");
+              if (planet1P.length != 2) {
+                planet1P = $("#planet1P")
+                  .val()
+                  .replace(/ +/g, " ")
+                  .split(" ");
               }
             }
-            let planet2P = $("#planet2P").val().split('/');
-            if(planet2P.length != 2){
-              planet2P = $("#planet2P").val().split(',');
-              if(planet2P.length != 2){
-                planet2P = $("#planet1P").val().replace(/ +/g, " ").split(' ');
+            let planet2P = $("#planet2P")
+              .val()
+              .split("/");
+            if (planet2P.length != 2) {
+              planet2P = $("#planet2P")
+                .val()
+                .split(",");
+              if (planet2P.length != 2) {
+                planet2P = $("#planet1P")
+                  .val()
+                  .replace(/ +/g, " ")
+                  .split(" ");
               }
             }
             const planet1X = parseInt(planet1P[0]);
@@ -119,11 +139,18 @@ const nextColony = {
 
         $("#pointInfo").on("click", function() {
           try {
-            let planet1P = $("#planet1P").val().split('/');
-            if(planet1P.length != 2){
-              planet1P = $("#planet1P").val().split(',');
-              if(planet1P.length != 2){
-                planet1P = $("#planet1P").val().replace(/ +/g, " ").split(' ');
+            let planet1P = $("#planet1P")
+              .val()
+              .split("/");
+            if (planet1P.length != 2) {
+              planet1P = $("#planet1P")
+                .val()
+                .split(",");
+              if (planet1P.length != 2) {
+                planet1P = $("#planet1P")
+                  .val()
+                  .replace(/ +/g, " ")
+                  .split(" ");
               }
             }
             const planet1X = parseInt(planet1P[0]);
