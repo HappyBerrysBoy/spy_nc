@@ -78,10 +78,24 @@ const nextColony = {
 
         $("#calcTime").on("click", function() {
           try {
-            const planet1X = parseInt($("#planet1X").val());
-            const planet1Y = parseInt($("#planet1Y").val());
-            const planet2X = parseInt($("#planet2X").val());
-            const planet2Y = parseInt($("#planet2Y").val());
+            let planet1P = $("#planet1P").val().split('/');
+            if(planet1P.length != 2){
+              planet1P = $("#planet1P").val().split(',');
+              if(planet1P.length != 2){
+                planet1P = $("#planet1P").val().replace(/ +/g, " ").split(' ');
+              }
+            }
+            let planet2P = $("#planet2P").val().split('/');
+            if(planet2P.length != 2){
+              planet2P = $("#planet2P").val().split(',');
+              if(planet2P.length != 2){
+                planet2P = $("#planet1P").val().replace(/ +/g, " ").split(' ');
+              }
+            }
+            const planet1X = parseInt(planet1P[0]);
+            const planet1Y = parseInt(planet1P[1]);
+            const planet2X = parseInt(planet2P[0]);
+            const planet2Y = parseInt(planet2P[1]);
             const speed = parseInt($("#speed").val());
 
             const calcResult =
@@ -105,8 +119,15 @@ const nextColony = {
 
         $("#pointInfo").on("click", function() {
           try {
-            const planet1X = parseInt($("#planet1X").val());
-            const planet1Y = parseInt($("#planet1Y").val());
+            let planet1P = $("#planet1P").val().split('/');
+            if(planet1P.length != 2){
+              planet1P = $("#planet1P").val().split(',');
+              if(planet1P.length != 2){
+                planet1P = $("#planet1P").val().replace(/ +/g, " ").split(' ');
+              }
+            }
+            const planet1X = parseInt(planet1P[0]);
+            const planet1Y = parseInt(planet1P[1]);
             loadGalaxy(planet1X, planet1Y, 0).then(pinfo => {
               let pdata = pinfo.data;
               if (pdata.planets.length > 0) {
@@ -240,8 +261,7 @@ const nextColony = {
           .find(".planetY")
           .text();
 
-        $("#planet1X").val(planetx);
-        $("#planet1Y").val(planety);
+        $("#planet1P").val(`${planetx}/${planety}`);
       });
 
       $(".planetP2").on("click", function() {
@@ -256,8 +276,7 @@ const nextColony = {
           .find(".planetY")
           .text();
 
-        $("#planet2X").val(planetx);
-        $("#planet2Y").val(planety);
+        $("#planet2P").val(`${planetx}/${planety}`);
       });
 
       $(".planetId").on("click", async function() {

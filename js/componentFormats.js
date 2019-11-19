@@ -3,21 +3,13 @@ const componentFormats = {
   <div class="row">
     <h3 style="margin-left:2.5%;">Distance Calculator</h3>
     <div class="row" style="border:3px solid #023;border-radius:10px;margin:1% 2.5%;padding:10px;">
-      <div class="col-md-1 mb-1">
-        <label for="firstName">P1 X</label>
-        <input type="text" class="form-control" id="planet1X" placeholder="" value="" required="">
+      <div class="col-md-2 mb-1">
+        <label for="firstName">P1 X/P1 Y</label>
+        <input type="text" class="form-control" id="planet1P" placeholder="" value="" required="">
       </div>
-      <div class="col-md-1 mb-1">
-        <label for="firstName">P1 Y</label>
-        <input type="text" class="form-control" id="planet1Y" placeholder="" value="" required="">
-      </div>
-      <div class="col-md-1 mb-1">
-        <label for="firstName">P2 X</label>
-        <input type="text" class="form-control" id="planet2X" placeholder="" value="" required="">
-      </div>
-      <div class="col-md-1 mb-1">
-        <label for="firstName">P2 Y</label>
-        <input type="text" class="form-control" id="planet2Y" placeholder="" value="" required="">
+      <div class="col-md-2 mb-1">
+        <label for="firstName">P2 X/P2 Y</label>
+        <input type="text" class="form-control" id="planet2P" placeholder="" value="" required="">
       </div>
       <div class="col-md-2 mb-2">
         <label for="firstName">Slowest Speed</label>
