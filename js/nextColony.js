@@ -176,9 +176,9 @@ const nextColony = {
                 );
               } else if (pdata.explore.length > 1) {
                 let info = pdata.explore;
-                let disp_str = `${info.length} users explore this point \n`;
+                let disp_str = `${info.length} users explore this point`;
                 for (key in info) {
-                  disp_str += `${info[key].user} : ${new Date(
+                  disp_str += `\n ${info[key].user} : ${new Date(
                     info[key].date * 1000
                   ).toLocaleString()}`;
                 }
@@ -218,7 +218,7 @@ const nextColony = {
       );
 
       l.data.planets.sort(function(a, b) {
-        return a.date < b.date ? -1 : a.date > b.date ? 1 : 0;
+        return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
       });
       l.data.planets.forEach((value, index, array) => {
         $("#planetList").append(
