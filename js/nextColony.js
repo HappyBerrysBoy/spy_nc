@@ -118,13 +118,14 @@ const nextColony = {
             const planet2Y = parseInt(planet2P[1]);
             const speed = parseInt($("#speed").val());
 
-            const calcResult =
+            const distance = 
               Math.sqrt(
                 (planet1X - planet2X) ** 2 + (planet1Y - planet2Y) ** 2
-              ) / speed;
+              );
+            const calcResult = distance / speed;
             const minutes = (calcResult % 1) * 60;
 
-            $("#calcResult").val(calcResult);
+            $("#calcResult").val(distance);
             $("#resultTime").val(
               `${Math.floor(calcResult)}시간 ${Math.floor(minutes)}분 ${(
                 (minutes % 1) *
