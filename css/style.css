@@ -31,6 +31,12 @@ body {
   }
 }
 
+@media (max-width: 767px) {
+  #p1info {
+    height: 90px;
+  }
+}
+
 .nav-scroller {
   position: relative;
   z-index: 2;

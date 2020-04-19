@@ -3,28 +3,20 @@ const componentFormats = {
   <div class="row">
     <h3 style="margin-left:2.5%;">Distance Calculator</h3>
     <div class="row" style="border:3px solid #023;border-radius:10px;margin:1% 2.5%;padding:10px;">
-      <div class="col-md-1 mb-1">
-        <label for="firstName">P1 X</label>
-        <input type="text" class="form-control" id="planet1X" placeholder="" value="" required="">
+      <div class="col-md-2 mb-1">
+        <label for="firstName">P1 X/P1 Y</label>
+        <input type="text" class="form-control" id="planet1P" placeholder="" value="" required="">
       </div>
-      <div class="col-md-1 mb-1">
-        <label for="firstName">P1 Y</label>
-        <input type="text" class="form-control" id="planet1Y" placeholder="" value="" required="">
-      </div>
-      <div class="col-md-1 mb-1">
-        <label for="firstName">P2 X</label>
-        <input type="text" class="form-control" id="planet2X" placeholder="" value="" required="">
-      </div>
-      <div class="col-md-1 mb-1">
-        <label for="firstName">P2 Y</label>
-        <input type="text" class="form-control" id="planet2Y" placeholder="" value="" required="">
+      <div class="col-md-2 mb-1">
+        <label for="firstName">P2 X/P2 Y</label>
+        <input type="text" class="form-control" id="planet2P" placeholder="" value="" required="">
       </div>
       <div class="col-md-2 mb-2">
         <label for="firstName">Slowest Speed</label>
-        <input type="text" class="form-control" id="speed" placeholder="" value="" required="">
+        <input type="text" class="form-control" id="speed" placeholder="" value="1" required="">
       </div>
       <div class="col-md-2 mb-2">
-        <label for="firstName">Result</label>
+        <label for="firstName">Distance</label>
         <input type="text" class="form-control" id="calcResult" placeholder="" value="" required="" readonly>
       </div>
       <div class="col-md-2 mb-2">
@@ -33,6 +25,11 @@ const componentFormats = {
       </div>
       <div class="col-md-2 mb-2">
         <button type="submit" id="calcTime" class="btn btn-primary btn-lg btn-block">Calc</button>
+        <button type="submit" id="pointInfo" class="btn btn-primary btn-lg btn-block">P1 Info</button>
+      </div>
+      <div class="col-md-10 mb-10">
+        <label for="firstName">P1 infomation</label>
+        <textarea class="form-control" id="p1info" readonly></textarea>
       </div>
     </div>
     <div class="col-md-6 mb-3">
@@ -58,6 +55,8 @@ const componentFormats = {
           <th scope="col">Id</th>
           <th scope="col">X</th>
           <th scope="col">Y</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -112,9 +111,11 @@ const componentFormats = {
       <td>{{count}}</td>
       <td>{{name}}</td>
       <td>{{id}}</td>
-      <td>{{x}}</td>
-      <td>{{y}}</td>
+      <td class="planetX">{{x}}</td>
+      <td class="planetY">{{y}}</td>
       <td><button data-id="{{id}}" class="btn btn-primary btn-sm btn-block planetId">Detail</button></td>
+      <td><button class="btn btn-primary btn-sm btn-block planetP1">P1</button></td>
+      <td><button class="btn btn-primary btn-sm btn-block planetP2">P2</button></td>
     </tr>
   `,
   planetDetailComponent: `
@@ -213,5 +214,5 @@ const componentFormats = {
     <td>{{return}}</td>
     <td>{{content}}</td>
   </tr>`,
-  userShortcut: `<button class="btn btn-primary btn-sm btn-block shortcut">{{account}}</button>`,
+  userShortcut: `<button class="btn btn-primary btn-sm btn-block shortcut">{{account}}</button>`
 };

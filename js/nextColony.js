@@ -19,7 +19,7 @@ const nextColony = {
           firstAccount = user;
         }
         $("#accountShortcut").append(
-          componentFormats.userShortcut.replace(/{{account}}/g, user),
+          componentFormats.userShortcut.replace(/{{account}}/g, user)
         );
       });
     }
@@ -31,6 +31,12 @@ const nextColony = {
 
     $("#inputAccount").val(firstAccount);
     $("#loadAccount").trigger("click");
+
+    $("#inputAccount").keydown(function(key) {
+      if (key.keyCode == 13) {
+        $("#loadAccount").trigger("click");
+      }
+    });
   },
   subMenu: {
     account: {
@@ -42,7 +48,7 @@ const nextColony = {
         $("#content").html("");
 
         $("#content").append(
-          componentFormats.inputComponent.replace(/{{account}}/g, ""),
+          componentFormats.inputComponent.replace(/{{account}}/g, "")
         );
 
         $("#loadAccount").on("click", function() {
@@ -63,7 +69,7 @@ const nextColony = {
             localStorage.setItem(storageId, users);
 
             $("#accountShortcut").append(
-              componentFormats.userShortcut.replace(/{{account}}/g, selId),
+              componentFormats.userShortcut.replace(/{{account}}/g, selId)
             );
 
             $(".shortcut").off("click");
@@ -78,32 +84,117 @@ const nextColony = {
 
         $("#calcTime").on("click", function() {
           try {
-            const planet1X = parseInt($("#planet1X").val());
-            const planet1Y = parseInt($("#planet1Y").val());
-            const planet2X = parseInt($("#planet2X").val());
-            const planet2Y = parseInt($("#planet2Y").val());
+            let planet1P = $("#planet1P")
+              .val()
+              .split("/");
+            if (planet1P.length != 2) {
+              planet1P = $("#planet1P")
+                .val()
+                .split(",");
+              if (planet1P.length != 2) {
+                planet1P = $("#planet1P")
+                  .val()
+                  .replace(/ +/g, " ")
+                  .split(" ");
+              }
+            }
+            let planet2P = $("#planet2P")
+              .val()
+              .split("/");
+            if (planet2P.length != 2) {
+              planet2P = $("#planet2P")
+                .val()
+                .split(",");
+              if (planet2P.length != 2) {
+                planet2P = $("#planet1P")
+                  .val()
+                  .replace(/ +/g, " ")
+                  .split(" ");
+              }
+            }
+            const planet1X = parseInt(planet1P[0]);
+            const planet1Y = parseInt(planet1P[1]);
+            const planet2X = parseInt(planet2P[0]);
+            const planet2Y = parseInt(planet2P[1]);
             const speed = parseInt($("#speed").val());
 
-            const calcResult =
+            const distance = 
               Math.sqrt(
-                (planet1X - planet2X) ** 2 + (planet1Y - planet2Y) ** 2,
-              ) / speed;
+                (planet1X - planet2X) ** 2 + (planet1Y - planet2Y) ** 2
+              );
+            const calcResult = distance / speed;
             const minutes = (calcResult % 1) * 60;
 
-            $("#calcResult").val(calcResult);
+            $("#calcResult").val(distance);
             $("#resultTime").val(
               `${Math.floor(calcResult)}시간 ${Math.floor(minutes)}분 ${(
                 (minutes % 1) *
                 60
-              ).toFixed(0)}초`,
+              ).toFixed(0)}초`
             );
           } catch (e) {
             console.log(e);
             $("#calcResult").val(e);
           }
         });
-      },
-    },
+
+        $("#pointInfo").on("click", function() {
+          try {
+            let planet1P = $("#planet1P")
+              .val()
+              .split("/");
+            if (planet1P.length != 2) {
+              planet1P = $("#planet1P")
+                .val()
+                .split(",");
+              if (planet1P.length != 2) {
+                planet1P = $("#planet1P")
+                  .val()
+                  .replace(/ +/g, " ")
+                  .split(" ");
+              }
+            }
+            const planet1X = parseInt(planet1P[0]);
+            const planet1Y = parseInt(planet1P[1]);
+            loadGalaxy(planet1X, planet1Y, 0).then(pinfo => {
+              let pdata = pinfo.data;
+              if (pdata.planets.length > 0) {
+                let info = pdata.planets[0];
+                $("#p1info").text(`${info.user}'s Planet`);
+              } else if (pdata.explored.length > 0) {
+                let info = pdata.explored[0];
+                $("#p1info").text(
+                  `${info.user} explored at ${new Date(
+                    info.date * 1000
+                  ).toLocaleString()}`
+                );
+              } else if (pdata.explore.length == 1) {
+                let info = pdata.explore[0];
+                $("#p1info").text(
+                  `${info.user} explore this point arrived at ${new Date(
+                    info.date * 1000
+                  ).toLocaleString()}`
+                );
+              } else if (pdata.explore.length > 1) {
+                let info = pdata.explore;
+                let disp_str = `${info.length} users explore this point`;
+                for (key in info) {
+                  disp_str += `\n ${info[key].user} : ${new Date(
+                    info[key].date * 1000
+                  ).toLocaleString()}`;
+                }
+                $("#p1info").text(disp_str);
+              } else {
+                $("#p1info").text("Clean Point");
+              }
+            });
+          } catch (e) {
+            console.log(e);
+            $("#p1info").text(e);
+          }
+        });
+      }
+    }
   },
   loadPlanets() {
     if (
@@ -123,12 +214,12 @@ const nextColony = {
       $("#contentBody").append(
         componentFormats.planetComponent.replace(
           /{{accountInfo}}/g,
-          `${account} < ${l.data.planets.length} >`,
-        ) + componentFormats.planetDetailComponent,
+          `${account} < ${l.data.planets.length} >`
+        ) + componentFormats.planetDetailComponent
       );
 
       l.data.planets.sort(function(a, b) {
-        return a.date < b.date ? -1 : a.date > b.date ? 1 : 0;
+        return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
       });
       l.data.planets.forEach((value, index, array) => {
         $("#planetList").append(
@@ -138,7 +229,7 @@ const nextColony = {
             .replace(/{{name}}/g, l.data.planets[index].name)
             .replace(/{{x}}/g, l.data.planets[index].posx)
             .replace(/{{y}}/g, l.data.planets[index].posy)
-            .replace(/{{starter}}/g, l.data.planets[index].starter == 1),
+            .replace(/{{starter}}/g, l.data.planets[index].starter == 1)
         );
       });
 
@@ -148,8 +239,8 @@ const nextColony = {
         $("#contentBody").append(
           componentFormats.missionComponent.replace(
             /{{accountInfo}}/g,
-            `${account} <${missions.data.length} missions>`,
-          ),
+            `${account} <${missions.data.length} missions>`
+          )
         );
 
         $("#missionList").html("");
@@ -168,22 +259,52 @@ const nextColony = {
                 m.resources.coal +
                   m.resources.copper +
                   m.resources.ore +
-                  m.resources.uranium,
+                  m.resources.uranium
               )
               .replace(
                 /{{arrival}}/g,
-                `${new Date(m.arrival * 1000).toLocaleString()}`,
+                `${new Date(m.arrival * 1000).toLocaleString()}`
               )
               .replace(
                 /{{return}}/g,
-                m.return
-                  ? `${new Date(m.return * 1000).toLocaleString()}`
-                  : "-",
+                m.return ? `${new Date(m.return * 1000).toLocaleString()}` : "-"
               )
               .replace(/{{result}}/g, m.result ? m.result : "-")
-              .replace(/{{cancel}}/g, m.cancel_trx ? m.cancel_trx : "-"),
+              .replace(/{{cancel}}/g, m.cancel_trx ? m.cancel_trx : "-")
           );
         });
+      });
+
+      debugger;
+
+      $(".planetP1").on("click", function() {
+        const planetx = $(this)
+          .parent()
+          .parent()
+          .find(".planetX")
+          .text();
+        const planety = $(this)
+          .parent()
+          .parent()
+          .find(".planetY")
+          .text();
+
+        $("#planet1P").val(`${planetx}/${planety}`);
+      });
+
+      $(".planetP2").on("click", function() {
+        const planetx = $(this)
+          .parent()
+          .parent()
+          .find(".planetX")
+          .text();
+        const planety = $(this)
+          .parent()
+          .parent()
+          .find(".planetY")
+          .text();
+
+        $("#planet2P").val(`${planetx}/${planety}`);
       });
 
       $(".planetId").on("click", async function() {
@@ -196,10 +317,10 @@ const nextColony = {
             loadFleet($("#inputAccount").val(), $(this).attr("data-id")),
             fleetMissionOutgoing(
               $("#inputAccount").val(),
-              $(this).attr("data-id"),
+              $(this).attr("data-id")
             ),
             loadproduction($(this).attr("data-id"), $("#inputAccount").val()),
-            loadskills($("#inputAccount").val()),
+            loadskills($("#inputAccount").val())
           ]) // axios.all로 여러 개의 request를 보내고
           .then(
             axios.spread((a, b, c, d, e, f) => {
@@ -228,9 +349,9 @@ const nextColony = {
                       ? "Charged"
                       : planetInfo.shieldcharge_busy > cur_time
                       ? `Charging (${new Date(
-                          planetInfo.shieldcharge_busy * 1000,
+                          planetInfo.shieldcharge_busy * 1000
                         ).toLocaleString()})`
-                      : "Not charged",
+                      : "Not charged"
                   )
                   .replace(/{{baseSkill}}/g, skillInfo[21].current)
                   .replace(/{{coalSkill}}/g, skillInfo[19].current)
@@ -247,11 +368,11 @@ const nextColony = {
                     /{{protect}}/g,
                     planetInfo.shieldprotection_busy > cur_time
                       ? `Activated (${new Date(
-                          planetInfo.shieldprotection_busy * 1000,
+                          planetInfo.shieldprotection_busy * 1000
                         ).toLocaleString()})`
-                      : "Not activated",
+                      : "Not activated"
                   )
-                  .replace(/{{rarity}}/g, planetInfo.planet_rarity),
+                  .replace(/{{rarity}}/g, planetInfo.planet_rarity)
               );
 
               // Planet Quantity
@@ -292,12 +413,12 @@ const nextColony = {
                   .replace(/{{oresafe}}/g, loadProduct.ore.safe.toFixed(2))
                   .replace(
                     /{{coppersafe}}/g,
-                    loadProduct.copper.safe.toFixed(2),
+                    loadProduct.copper.safe.toFixed(2)
                   )
                   .replace(
                     /{{uraniumsafe}}/g,
-                    loadProduct.uranium.safe.toFixed(2),
-                  ),
+                    loadProduct.uranium.safe.toFixed(2)
+                  )
               );
 
               // Planet Ship Info
@@ -306,7 +427,7 @@ const nextColony = {
                 if (map.has(v.type)) {
                   map.set(v.type, {
                     ttl: map.get(v.type)["ttl"] + 1,
-                    leave: 0,
+                    leave: 0
                   });
                 } else {
                   map.set(v.type, { ttl: 1, leave: 0 });
@@ -335,12 +456,12 @@ const nextColony = {
                   if (map.has(ship)) {
                     map.set(ship, {
                       ttl: map.get(ship).ttl + ships[ship].n,
-                      leave: map.get(ship).leave + ships[ship].n,
+                      leave: map.get(ship).leave + ships[ship].n
                     });
                   } else {
                     map.set(ship, {
                       ttl: ships[ship].n,
-                      leave: ships[ship].n,
+                      leave: ships[ship].n
                     });
                   }
                 });
@@ -349,8 +470,8 @@ const nextColony = {
               $("#planetDetail").append(
                 componentFormats.planetShipInfo.replace(
                   /{{planetinfo}}/g,
-                  planetInfoStr,
-                ),
+                  planetInfoStr
+                )
               );
 
               for (var [keyinfo, value] of map.entries()) {
@@ -358,15 +479,15 @@ const nextColony = {
                   componentFormats.detailRow
                     .replace(/{{name}}/g, keyinfo)
                     .replace(/{{using}}/g, value.leave)
-                    .replace(/{{total}}/g, value.ttl),
+                    .replace(/{{total}}/g, value.ttl)
                 );
               }
 
               $("#planetDetail").append(
                 componentFormats.planetFleetInfo.replace(
                   /{{planetinfo}}/g,
-                  planetInfoStr,
-                ),
+                  planetInfoStr
+                )
               );
 
               let fleetinfo = d.data;
@@ -418,18 +539,18 @@ const nextColony = {
                       /{{arrival}}/g,
                       v.arrival != v.return
                         ? new Date(v.arrival * 1000).toLocaleString()
-                        : "-",
+                        : "-"
                     )
                     .replace(
                       /{{return}}/g,
                       v.return
                         ? new Date(v.return * 1000).toLocaleString()
-                        : "-",
+                        : "-"
                     )
-                    .replace(/{{content}}/g, content),
+                    .replace(/{{content}}/g, content)
                 );
               });
-            }),
+            })
           )
           .catch(error => {
             console.error(error);
@@ -468,5 +589,5 @@ const nextColony = {
       $(this).addClass("active");
       self.subMenu[$(this).attr("data-submenu")].onload();
     });
-  },
+  }
 };
