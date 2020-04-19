@@ -1,14 +1,14 @@
-$(function() {
+$(function () {
   "use strict";
 
   // 시작시 기본 설정 기능///////////////////////////////////////////
-  $('[data-toggle="offcanvas"]').on("click", function() {
+  $('[data-toggle="offcanvas"]').on("click", function () {
     $(".offcanvas-collapse").toggleClass("open");
   });
 
   $("#mainMenu").html("");
 
-  Object.keys(menuArray).forEach(menu => {
+  Object.keys(menuArray).forEach((menu) => {
     $("#mainMenu").append(
       $("#mainMenuComponent")
         .html()
@@ -22,7 +22,7 @@ $(function() {
     }
   });
 
-  $(".nav-item").on("click", function() {
+  $(".nav-item").on("click", function () {
     $(".nav-item").each((idx, item) => {
       $(item).removeClass("active");
     });
@@ -39,5 +39,5 @@ $(function() {
 
 // 각자 js file에서 설정
 const menuArray = {
-  nextColony: nextColony
+  nextColony: nextColony,
 };

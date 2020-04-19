@@ -1,56 +1,56 @@
 // Planet 정보
-const loadplanets = account => {
+const loadplanets = (account) => {
   return axios.get(
-    `https://api.nextcolony.io/loadplanets?user=${account}&to=200`,
+    `https://api.nextcolony.io/loadplanets?user=${account}&to=1000`
   );
 };
 
-const loadplanet = planetId => {
+const loadplanet = (planetId) => {
   return axios.get(`https://api.nextcolony.io/loadplanet?id=${planetId}`);
 };
 
-const loadskills = account => {
+const loadskills = (account) => {
   return axios.get(`https://api.nextcolony.io/loadskills?user=${account}`);
 };
 
-const loadqyt = planetId => {
+const loadqyt = (planetId) => {
   return axios.get(`https://api.nextcolony.io/loadqyt?id=${planetId}`);
 };
 
-const loadbuilding = planetId => {
+const loadbuilding = (planetId) => {
   return axios.get(`https://api.nextcolony.io/loadbuildings?id=${planetId}`);
 };
 
-const loadshipyard = planetId => {
+const loadshipyard = (planetId) => {
   return axios.get(`https://api.nextcolony.io/shipyard?id=${planetId}`);
 };
 
 const loadproduction = (planetId, account) => {
   return axios.get(
-    `https://api.nextcolony.io/loadproduction?id=${planetId}&user=${account}`,
+    `https://api.nextcolony.io/loadproduction?id=${planetId}&user=${account}`
   );
 };
 
 const loadGalaxy = (planetX, planetY) => {
   return axios.get(
-    `https://api.nextcolony.io/loadgalaxy?x=${planetX}&y=${planetY}&height=120&width=120`,
+    `https://api.nextcolony.io/loadgalaxy?x=${planetX}&y=${planetY}&height=120&width=120`
   );
 };
 
-const fleetMission = account => {
+const fleetMission = (account) => {
   return axios.get(
-    `https://api.nextcolony.io/loadfleetmission?user=${account}&active=1`,
+    `https://api.nextcolony.io/loadfleetmission?user=${account}&active=1`
   );
 };
 
 const fleetMissionOutgoing = (account, planetId) => {
   return axios.get(
-    `https://api.nextcolony.io/loadfleetmission?planetid=${planetId}&user=${account}&active=1`,
+    `https://api.nextcolony.io/loadfleetmission?planetid=${planetId}&user=${account}&active=1`
   );
 };
 
 const loadFleet = (account, planetId) => {
   return axios.get(
-    `https://api.nextcolony.io/loadfleet?user=${account}&planetid=${planetId}`,
+    `https://api.nextcolony.io/loadfleet?user=${account}&planetid=${planetId}`
   );
 };
